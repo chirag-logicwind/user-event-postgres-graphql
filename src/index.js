@@ -1,8 +1,9 @@
-import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@as-integrations/express5';
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import createApolloGraphQLServer from './graphql/index.js';
+import sequelize from '../src/config/db.config.js';
 
 async function init() {    
     dotenv.config();
@@ -11,18 +12,9 @@ async function init() {
     app.use(express.json());
     app.use(cors());
 
-    const server = new ApolloServer({
-        typeDefs: `
-            type Query {
-                hello: String
-            }
-        `,
-        resolvers: {}
-    });
-    
-    await server.start();
+    app.use("/", expressMiddleware(await createApolloGraphQLServer() ));
 
-    app.use("/", expressMiddleware(server));    
+    await sequelize.sync();
 
     app.listen(process.env.APP_PORT, () => {
         console.log(`Server Started on port: ${process.env.APP_PORT}`);
