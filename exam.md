@@ -25,5 +25,3 @@ Event Management System (NodeJs + GraphQL + PostgreSQL + Sequelize)
 Notes:
 - Consider models as per your knowledge
 - Create Postman for above APIs
-
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJsdWN5QHRlc3QuaW4iLCJpYXQiOjE3NTUxNDkyNzEsImV4cCI6MTc1NTc1NDA3MX0.-ax02qWE-Iq2w8nTdLTIKiLH1Ca2cx2zCaDPZSvVPaI

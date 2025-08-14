@@ -18,7 +18,7 @@ export const getUserFromAuthHeader = (req) => {
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
   if (!token) return null;
   try {
-    const decoded = verifyJwt(token);
+    const decoded = verifyJwt(token, process.env.JWT_SECRET);
     return decoded; // { id, email, ... }
   } catch {
     return null;
@@ -26,12 +26,12 @@ export const getUserFromAuthHeader = (req) => {
 };
 
 // Simple auth guard for resolvers
-export const requireAuth = (ctx) => {
-  // console.log('from rrq auth', ctx);
-  if (!ctx.user) {
+export const requireAuth = (user) => {
+  // console.log('from rrq auth', user);
+  if (!user) {
     throw new Error('Not authenticated');
   }
-  return ctx.user;
+  return user;
 };
 
 // Token for password reset: use UUID; in production you can use crypto.randomBytes

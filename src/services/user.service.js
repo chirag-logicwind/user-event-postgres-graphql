@@ -1,4 +1,4 @@
-import { User, PasswordResetToken } from '../config/db.config.js';
+import { User, PasswordResetToken, Event } from '../config/db.config.js';
 import bcrypt from 'bcrypt';
 import { signJwt, generateResetToken, resetExpiry } from '../utils/auth.js';
 import { Op } from 'sequelize';
@@ -27,7 +27,7 @@ export const registerUser = async ({name, email, password}) => {
 export const loginUser = async ({ email, password }) => {  
   await validateLogin({ email, password });
 
-  const user = await User.findOne({ where: { email } });
+  const user = await User.findOne({ where: { email }, include: { model: Event, as: 'events' } });
   if (!user) throw new Error('Invalid credentials');
 
   const ok = await bcrypt.compare(password, user.password);
