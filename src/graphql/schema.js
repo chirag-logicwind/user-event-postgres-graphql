@@ -9,6 +9,11 @@ const typeDefs = `#graphql
         token: String!
         user: User!
     }
+
+    type RequestResetResponse {
+        status: Boolean!
+        token: String # returned only for demo; in prod you email it instead
+    }
     
     type Query {
         me: User
@@ -17,6 +22,12 @@ const typeDefs = `#graphql
     type Mutation {
         register(name: String, email: String!, password: String!): User!
         login(email: String!, password: String!): AuthPayload!
+
+        changePassword(oldPassword: String!, newPassword: String!): Boolean!
+        updatePassword(newPassword: String!): Boolean!
+
+        requestPasswordReset(email: String!): RequestResetResponse!
+        resetPassword(token: String!, newPassword: String!): Boolean!
     }
 `;
 
