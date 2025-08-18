@@ -33,13 +33,22 @@ PasswordResetToken.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(PasswordResetToken, { foreignKey: 'userId' });
 
 // User ↔ Event (Creator)
-Event.belongsTo(User, { as: 'creator', foreignKey:'creatorId' });
 User.hasMany(Event, { as: 'events',  foreignKey: 'creatorId' });
+Event.belongsTo(User, { as: 'creator', foreignKey:'creatorId' });
 
 // Event ↔ EventInvite
+Event.hasMany(EventInvite, { as: 'invites', foreignKey: 'EventId' });
 EventInvite.belongsTo(Event, { as: 'event', foreignKey: 'EventId' });
-Event.hasMany(EventInvite, { as: 'invitees', foreignKey: 'EventId' });
 
+// User ↔ EventInvite (who is invited)
+User.hasMany(EventInvite, { as: 'sentInvites', foreignKey: 'userId' });
+EventInvite.belongsTo(User, { as: 'invitee', foreignKey: 'userId' });
+
+/*  
+Event.creator → the user who created the event
+Event.invites → list of invites for this event
+EventInvite.invitee → the user who got invited
+*/
 // Sync helper (dev only)
 export const syncDb = async () => {
   await sequelize.authenticate();

@@ -22,16 +22,19 @@ export const inviteUsers = async (eventId, emails) => {
 };
 
 export const getMyEvents = async (user) => {
-  return Event.findAll({
-    where: {
-      [Op.or]: [
-        { creatorId: user.id },
-        { '$invites.email$': user.email }
-      ]
-    },
+  return await Event.findAll({
+    where: { creatorId: user.id },    
     include: [
       { model: User, as: 'creator' },
-      { model: EventInvite, as: 'invites' }
+      { model: EventInvite, as: 'invites', 
+        include: [
+          {
+            model: User,
+            as: "invitee",
+            attributes: ["id", "email"]
+          }
+        ]
+      }
     ],
     distinct: true
   });
@@ -41,7 +44,7 @@ export const getEventDetail = async (eventId) => {
   return Event.findByPk(eventId, {
     include: [
       { model: User, as: 'creator' },
-      { model: EventInvite, as: 'invitees', 
+      { model: EventInvite, as: 'invites', 
         include: [
         { model: Event, as: 'event'}
       ]},      

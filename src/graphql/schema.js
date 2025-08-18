@@ -21,7 +21,7 @@ const typeDefs = `#graphql
       description: String
       date: String!
       creator: User! # Non-nullable
-      invitees: [EventInvite]
+      invites: [EventInvite]
     }
 
     type EventInvite {        
