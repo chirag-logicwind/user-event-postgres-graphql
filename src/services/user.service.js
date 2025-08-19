@@ -1,7 +1,7 @@
 import { User, PasswordResetToken, Event } from '../config/db.config.js';
 import bcrypt from 'bcrypt';
 import { signJwt, generateResetToken, resetExpiry } from '../utils/auth.js';
-import { Op } from 'sequelize';
+import { Op, where } from 'sequelize';
 import {
   validateRegister,
   validateLogin,
@@ -10,6 +10,12 @@ import {
   validateRequestReset,
   validateResetPassword
 } from '../utils/validators.js';
+
+export const getUsers = async (user) => {
+  const res =  await User.findAll({ where: { id: user.id }, include: { model: Event, as: 'events' } });
+  // console.log(res);
+  return res;
+};
 
 export const registerUser = async ({name, email, password}) => {     
     await validateRegister({ name, email, password });

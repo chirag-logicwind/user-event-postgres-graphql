@@ -1,4 +1,4 @@
-import { registerUser, loginUser, changePassword, updatePassword, resetPassword, requestPasswordReset } from '../services/user.service.js';
+import { registerUser, loginUser, changePassword, updatePassword, resetPassword, requestPasswordReset, getUsers } from '../services/user.service.js';
 import { createEvent, updateEvent, inviteUsers, getEventDetail, getMyEvents } from '../services/event.service.js';
 import { requireAuth } from '../utils/auth.js';
 import User from '../models/user.model.js';
@@ -7,7 +7,7 @@ const resolvers = {
     Query: {
         me: async (_, __, { user }) => {
             if (!user) return null;
-            return User.findByPk(user.id);
+            return await User.findByPk(user.id);
         },
         myEvents: async (_, __, { user }) => {
             requireAuth(user);

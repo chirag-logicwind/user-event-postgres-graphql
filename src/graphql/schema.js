@@ -2,7 +2,7 @@ const typeDefs = `#graphql
     type User {
       name: String,
       email: String!
-      password: String!  
+      #password: String!  # no sensitive fields or data 
       events: [Event]
     }
     

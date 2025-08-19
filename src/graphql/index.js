@@ -6,7 +6,8 @@ async function createApolloGraphQLServer() {
     
     const server = new ApolloServer({
         typeDefs,
-        resolvers
+        resolvers,
+        introspection: process.env.NODE_ENV !== 'production', // only enable in dev
     });
         
     await server.start();
