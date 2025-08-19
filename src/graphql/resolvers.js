@@ -7,7 +7,7 @@ const resolvers = {
     Query: {
         me: async (_, __, { user }) => {
             if (!user) return null;
-            return await User.findByPk(user.id);
+            return getUsers(user.id);
         },
         myEvents: async (_, __, { user }) => {
             requireAuth(user);

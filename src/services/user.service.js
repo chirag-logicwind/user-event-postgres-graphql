@@ -11,10 +11,10 @@ import {
   validateResetPassword
 } from '../utils/validators.js';
 
-export const getUsers = async (user) => {
-  const res =  await User.findAll({ where: { id: user.id }, include: { model: Event, as: 'events' } });
-  // console.log(res);
-  return res;
+export const getUsers = async (userId) => {
+  return await User.findByPk(userId, {
+    include: { model: Event, as: 'events' } 
+  });  
 };
 
 export const registerUser = async ({name, email, password}) => {     
